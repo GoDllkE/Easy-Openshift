@@ -1,0 +1,5 @@
+Some guide links for futher development of this module:
+> http://docs.projectatomic.io/registry/latest/rest_api/openshift_v1.html
+
+Obs: Not all those really works, need to test one-by-one before implement on
+main source.
