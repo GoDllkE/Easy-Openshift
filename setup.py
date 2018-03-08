@@ -1,18 +1,18 @@
 """
     Setup file for this module
-    v 0.5.5.3
+    v 0.5.5.6
 """
 from setuptools import setup
 
 setup(
     name='easy-openshift',
-    version='0.5.5.3',
+    version='0.5.5.6',
     packages=["easy_openshift"],
     url='https://github.com/GoDllkE/python-api-openshift',
-    download_url=('https://github.com/GoDllkE/Easy-Openshift/archive/easy-openshift.zip'),
+    download_url=('https://github.com/GoDllkE/Easy-Openshift/archive/master.zip'),
     description='A python module to interact with openshift API.',
-    author='Gustavo Toledo de Oliveira',
-    author_email='gustavot53@gmail.com',
+    author='Gustavo Taoledo de Oliveira, Tiago Albuquerque',
+    author_email='gustavot53@gmail.com, Tiago.gba@hotmail.com',
     keywords=[
         'openshift',
         'origin',
@@ -25,8 +25,6 @@ setup(
         'jsonschema>=2.6.0',
         'json-rpc>=1.10.8',
         'requests>=2.18.4',
-        'requests-oauthlib>=0.8.0',
-        'requests-toolbelt>=0.8.0'
     ],
     classifiers=[
         # Development status
@@ -114,10 +112,9 @@ Citing
 ======
 Please cite the following paper if you use easy-openshift in a published work:
 
-Gustavo Toledo. "Easy-Openshift: Improving openshift auto-management through python", 2018
+Gustavo Toledo, Thiago Abluquerque. "Easy-Openshift: Improving openshift auto-management through Python 3", 2018
 
 .. _PYPI: https://pypi.python.org/pypi/Easy-Openshift
 .. _Github: https://github.com/GoDllkE/python-api-openshift
-
     """
 )
