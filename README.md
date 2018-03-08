@@ -12,7 +12,7 @@ Features
 - Simple code, simple functions, simple management. Just simple!
 
 Installation
-============
+========================
 To install easy-openshift from PYPI:
 
 .. code-block:: bash
@@ -28,7 +28,7 @@ PYPI_ or Github_ first):
 
 
 Usage
-========
+========================
 To use easy-openshift, just import this module with:
 
 .. code-block:: bash
@@ -51,9 +51,12 @@ After this, you will be able to use and explore all functionalities.
 
 Enjoy!
 
+Contact or Suggestions
+========================
+Send any suggestions to: gustavot53@gmail.com or give a try on github!
 
 Citing
-======
+========================
 Please cite the following paper if you use easy-openshift in a published work:
 
 Gustavo Toledo. "Easy-Openshift: Improving openshift auto-management through python", 2018
