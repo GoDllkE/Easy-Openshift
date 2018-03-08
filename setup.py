@@ -1,13 +1,15 @@
-# Setup file to install this module/project
+"""
+    Setup file for this module
+    v 0.5.5.3
+"""
 from setuptools import setup
 
 setup(
     name='easy-openshift',
-    version='0.5.5.2',
+    version='0.5.5.3',
     packages=["easy_openshift"],
     url='https://github.com/GoDllkE/python-api-openshift',
-    download_url=('https://github.com/GoDllkE/python-api-openshift/'
-                 'archive/easy-openshift-0.5.5.2.tar.tgz'),
+    download_url=('https://github.com/GoDllkE/Easy-Openshift/archive/easy-openshift.zip'),
     description='A python module to interact with openshift API.',
     author='Gustavo Toledo de Oliveira',
     author_email='gustavot53@gmail.com',
