@@ -203,7 +203,7 @@ class OpenshiftTools:
             })
         return json_data
 
-    def update_deploymentconfig_scale(self, scale_minimum, scale_maximum, cpu_usage, json_data):
+    def insert_scale(self, scale_minimum, scale_maximum, cpu_usage, json_data):
         """
             Method to insert/edit a scale from a specified DeploymentConfig
 
