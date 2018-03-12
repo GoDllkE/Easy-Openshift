@@ -200,6 +200,20 @@ class Openshift:
         return self, host, token, None
 
     @api_comunicator("get")
+    def get_deploymentconfig_scale(self, host, project, token, name):
+        """
+            Method to get a specified scale of deploymentconfig
+
+        :param host:        Openshift hostname.
+        :param project:     Project name on Openshift.
+        :param token:       User token to communicate with OAPI/API.
+        :param name:        Name of the specified DeploymentConfig.
+        :return:            Return a JSON with all information about.
+        """
+        host += '/oapi/v1/namespaces/{0}/deploymentconfigs/{1}/scale'.format(project, name)
+        return self, host, token, None
+
+    @api_comunicator("get")
     def get_deploymentconfigs(self, host, project, token):
         """
             Method to get all DeploymentConfigs from a project.
@@ -428,6 +442,21 @@ class Openshift:
         host += '/oapi/v1/namespaces/{0}/routes/{1}'.format(project, dc)
         return self, host, token, json_file
 
+    @api_comunicator("patch")
+    def update_deploymentconfig_scale(self, host, project, token, dc, json_file):
+        """
+             Method to update a specified DeploymentConfig from a project.
+
+        :param host:        Openshift hostname.
+        :param project:     Project name on Openshift.
+        :param token:       User token to communicate with OAPI/API.
+        :param dc:          Specific name of the deployment-config.
+        :param json_file:   variable with all json formatted and ready to push to API/OAPI.
+        :return:            Return a JSON with all information about.
+        """
+        host += '/oapi/v1/namespaces/{0}/deploymentconfigs/{1}/scale'.format(project, dc)
+        return self, host, token, json_file
+
     # ============================================================================== #
     #   Functions to send data from openshift API                                    #
     #   session to create all POST functions of this class                           #
@@ -446,6 +475,21 @@ class Openshift:
     #   session to create all PUT functions of this class                            #
     # ============================================================================== #
     #
+    @api_comunicator("put")
+    def create_deploymentconfig_scale(self, host, project, token, dc, json_file):
+        """
+            Method to create or update a scale from a deploymentconfig.
+
+        :param host:        Openshift hostname.
+        :param project:     Project name on Openshift.
+        :param token:       User token to communicate with OAPI/API.
+        :param dc:          Name of the deploymentconfig in openshift project.
+        :param json_file:   Variable with all json formatted and ready to push to API/OAPI.
+        :return:            Return a JSON with all information about.
+        """
+        host += '/oapi/v1/namespaces/{0}/deploymentconfigs/{1}/scale'.format(project, dc)
+        return self, host, token, json_file
+
     @api_comunicator("put")
     def create_route(self, host, project, token, json_file):
         """

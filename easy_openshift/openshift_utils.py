@@ -20,7 +20,7 @@ class OpenshiftTools:
         :return:                Return the gathered json from API/OAPI with new envs inside.
         """
 
-        if dc is None or json_data is None or new_envs is None:
+        if dc is None or json_data is None or environment is None:
             print("==> Error: DeploymentConfig, json_data or Environment not informed, exiting...")
             exit(1)
         else:
@@ -28,7 +28,7 @@ class OpenshiftTools:
             lista_variaveis = []
 
             for item in environment.split(','):
-                env = item.split(' ', maxsplit=1)
+                env = item.split('=', maxsplit=1)
                 lista_variaveis.append(
                     {
                         'name': '{0}'.format(env[0]),
@@ -288,4 +288,35 @@ class OpenshiftTools:
                     'timeoutSeconds': int(timeout)
                 }
                 pass
+        return json_data
+
+
+    def update_deploymentconfig_scale(self, scale_minimum, scale_maximum, cpu_usage, json_data):
+        """
+            Method to insert/edit a scale from a specified DeploymentConfig
+
+        :param scale_minimum:       Minimum scale required for this deploymentconfig (default 1)
+        :param scale_maximum:       Maximum scale required for this deploymentconfig (defalt 1)
+        :param cpu_usage:           CPU usage requested to scale a deploymentconfig (default 80%)
+        :param json_data:           Variable with all json formatted and ready to push to API/OAPI.
+        :return:                    Return the gathered json from API/OAPI with the scale values.
+        """
+        # ================================================== #
+        # Validation process (Default values)
+        if scale_minimum < 1 or scale_minimum is None:
+            scale_minimum = 1
+
+        if scale_maximum < 1 or scale_maximum is None:
+            scale_maximum = 1
+
+        if cpu_usage < 1 or cpu_usage is None:
+            cpu_usage = 80
+        # ================================================== #
+
+        if json_data['kind'] == 'HorizontalPodAutoscaler':
+            # Update info
+            json_data['spec'].setdefault('minReplicas', scale_minimum)
+            json_data['spec'].setdefault('maxReplicas', scale_maximum)
+            json_data['spec'].setdefault('targetCPUUtilizationPercentage', cpu_usage)
+
         return json_data
