@@ -1,12 +1,12 @@
 """
     Setup file for this module
-    v 0.5.6.2
+    v 0.5.6.3
 """
 from setuptools import setup
 
 setup(
     name='easy-openshift',
-    version='0.5.6.2',
+    version='0.5.6.3',
     packages=["easy_openshift"],
     url='https://github.com/GoDllkE/python-api-openshift',
     download_url=('https://github.com/GoDllkE/Easy-Openshift/archive/master.zip'),
@@ -51,7 +51,7 @@ setup(
     ],
     project_urls={
         'Source': 'https://github.com/GoDllkE/python-api-openshift',
-        'Documentaion': 'https://github.com/GoDllkE/python-api-openshift/docs',
+        'Documentation': 'https://github.com/GoDllkE/python-api-openshift/docs',
         'Tracker': 'https://github.com/GoDllkE/python-api-openshift/issues'
     },
     long_description="""
