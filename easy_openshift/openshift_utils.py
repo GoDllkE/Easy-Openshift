@@ -215,19 +215,32 @@ class OpenshiftTools:
         """
         # ================================================== #
         # Validation process (Default values)
-        if scale_minimum < 1 or scale_minimum is None:
+        if int(scale_minimum) <= 1 or scale_minimum is None:
             scale_minimum = 1
 
-        if scale_maximum < 1 or scale_maximum is None:
+        if int(scale_maximum) <= 1 or scale_maximum is None:
             scale_maximum = 1
 
-        if cpu_usage < 1 or cpu_usage is None:
+        if int(cpu_usage) <= 1 or cpu_usage is None:
             cpu_usage = 80
 
         # ================================================== #
         if json_data['kind'] == 'HorizontalPodAutoscaler':
-            json_data['spec'].setdefault('minReplicas', int(scale_minimum))
-            json_data['spec'].setdefault('maxReplicas', int(scale_maximum))
-            json_data['spec'].setdefault('targetCPUUtilizationPercentage', int(cpu_usage))
-
+            ####
+            if json_data['spec'].get('minReplicas'):
+                json_data['spec']['minReplicas'] = int(scale_minimum)
+            else:
+                json_data['spec'].setdefault('minReplicas', int(scale_minimum))
+            ####
+            if json_data['spec'].get('maxReplicas'):
+                json_data['spec']['maxReplicas'] = int(scale_maximum)
+            else:
+                json_data['spec'].setdefault('maxReplicas', int(scale_maximum))
+            ####
+            if json_data['spec'].get('targetCPUUtilizationPercentage'):
+                json_data['spec']['targetCPUUtilizationPercentage'] = int(cpu_usage)
+            else:
+                json_data['spec'].setdefault('targetCPUUtilizationPercentage', int(cpu_usage))
+            ####
         return json_data
+
