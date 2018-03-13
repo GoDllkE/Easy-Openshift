@@ -89,7 +89,10 @@ class Openshift:
                             return json.loads(response.content)
 
                         elif type_action == "post":
-                            pass
+                            header = {'Accept': 'application/json', 'Content-Type': 'application/json',
+                                      'Authorization': 'Bearer {0}'.format(token)}
+                            response = requests.post(host, verify=False, headers=header, json=json_config)
+                            return json.loads(response.content)
 
                         elif type_action == "delete":
                             pass
@@ -100,6 +103,7 @@ class Openshift:
 
                 except (ConnectionError, TimeoutError, ValueError, SystemError) as corno:
                     print("==> Erro: {0}".format(corno))
+                    exit(1)
 
             return func_wrapper
 
@@ -144,20 +148,8 @@ class Openshift:
     #   Functions to retrieve data from openshift API                                #
     #   session to create all GET functions of this class                            #
     # ============================================================================== #
+    # Functions to catch all
     #
-    @api_comunicator("get")
-    def get_project(self, host, project, token):
-        """
-            Method to get a specific project on Openshift.
-
-        :param host:        Openshift hostname.
-        :param project:     Project name on Openshift.
-        :param token:       User token to communicate with OAPI/API.
-        :return:            Return a JSON with all information about.
-        """
-        host += '/oapi/v1/projects/{0}'.format(project)
-        return self, host, token, None
-
     @api_comunicator("get")
     def get_projects(self, host, token):
         """
@@ -182,49 +174,6 @@ class Openshift:
         """
 
         host += '/api/v1/namespaces/{0}/services'.format(project)
-        return self, host, token, None
-
-    @api_comunicator("get")
-    def get_deploymentconfig(self, host, project, token, name):
-        """
-            Method to get a specified DeploymentConfig.
-
-        :param host:        Openshift hostname.
-        :param project:     Project name on Openshift.
-        :param token:       User token to communicate with OAPI/API.
-        :param name:        Name of the specified DeploymentConfig.
-        :return:            Return a JSON with all information about.
-        """
-
-        host += '/oapi/v1/namespaces/{0}/deploymentconfigs/{1}'.format(project, name)
-        return self, host, token, None
-
-    @api_comunicator("get")
-    def get_deploymentconfig_scale(self, host, project, token, name):
-        """
-            Method to get a specified scale of deploymentconfig
-
-        :param host:        Openshift hostname.
-        :param project:     Project name on Openshift.
-        :param token:       User token to communicate with OAPI/API.
-        :param name:        Name of the specified DeploymentConfig.
-        :return:            Return a JSON with all information about.
-        """
-        host += '/oapi/v1/namespaces/{0}/deploymentconfigs/{1}/scale'.format(project, name)
-        return self, host, token, None
-
-    @api_comunicator("get")
-    def get_deploymentconfig_autoscaler(self, host, project, token, dc):
-        """
-            Function to return HPA data from a deploymentconfig
-
-        :param host:        Openshift hostname.
-        :param project:     Project name on Openshift.
-        :param token:       User token to communicate with OAPI/API.
-        :param dc:          Specific name of the deployment-config.
-        :return:            Return a JSON with all information about.
-        """
-        host += '/apis/autoscaling/v1/namespaces/{0}/horizontalpodautoscalers/{1}'.format(project, dc)
         return self, host, token, None
 
     @api_comunicator("get")
@@ -311,6 +260,95 @@ class Openshift:
         host += '/oapi/v1/namespaces/{0}/routes'.format(project)
         return self, host, token, None
 
+    # ============================================================================== #
+    # Functions to get specific ones
+    #
+    @api_comunicator("get")
+    def get_project(self, host, project, token):
+        """
+            Method to get a specific project on Openshift.
+
+        :param host:        Openshift hostname.
+        :param project:     Project name on Openshift.
+        :param token:       User token to communicate with OAPI/API.
+        :return:            Return a JSON with all information about.
+        """
+        host += '/oapi/v1/projects/{0}'.format(project)
+        return self, host, token, None
+
+    @api_comunicator("get")
+    def get_deploymentconfig(self, host, project, token, name):
+        """
+            Method to get a specified DeploymentConfig.
+
+        :param host:        Openshift hostname.
+        :param project:     Project name on Openshift.
+        :param token:       User token to communicate with OAPI/API.
+        :param name:        Name of the specified DeploymentConfig.
+        :return:            Return a JSON with all information about.
+        """
+
+        host += '/oapi/v1/namespaces/{0}/deploymentconfigs/{1}'.format(project, name)
+        return self, host, token, None
+
+    @api_comunicator("get")
+    def get_deploymentconfig_scale(self, host, project, token, name):
+        """
+            Method to get a specified scale of deploymentconfig
+
+        :param host:        Openshift hostname.
+        :param project:     Project name on Openshift.
+        :param token:       User token to communicate with OAPI/API.
+        :param name:        Name of the specified DeploymentConfig.
+        :return:            Return a JSON with all information about.
+        """
+        host += '/oapi/v1/namespaces/{0}/deploymentconfigs/{1}/scale'.format(project, name)
+        return self, host, token, None
+
+    @api_comunicator("get")
+    def get_deploymentconfig_autoscale(self, host, project, token, dc):
+        """
+            Function to return HPA data from a deploymentconfig
+
+        :param host:        Openshift hostname.
+        :param project:     Project name on Openshift.
+        :param token:       User token to communicate with OAPI/API.
+        :param dc:          Specific name of the deployment-config.
+        :return:            Return a JSON with all information about.
+        """
+        host += '/apis/autoscaling/v1/namespaces/{0}/horizontalpodautoscalers/{1}'.format(project, dc)
+        return self, host, token, None
+
+    # ============================================================================== #
+    # Functions to list/get specific or many datas
+    #
+    @api_comunicator("get")
+    def list_deploymentconfig(self, host, project, token):
+        """
+
+        :param host:        Openshift hostname.
+        :param project:     Project name on Openshift.
+        :param token:       User token to communicate with OAPI/API.
+        :return:            Return a JSON with all information about.
+        """
+        host += '/oapi/v1/namespaces/{0}/deploymentconfigs'.format(project)
+        return self, host, token, None
+
+    @api_comunicator("get")
+    def list_deploymentconfigs(self, host, token):
+        """
+
+        :param host:        Openshift hostname.
+        :param project:     Project name on Openshift.
+        :param token:       User token to communicate with OAPI/API.
+        :return:            Return a JSON with all information about.
+        """
+        host += '/oapi/v1/deploymentconfigs'
+        return self, host, token, None
+
+    # ============================================================================== #
+    # Functions to get specific data
+    #
     @api_comunicator("get")
     def get_quota(self, host, project, token):
         """
@@ -340,21 +378,6 @@ class Openshift:
         return self, host, token, None
 
     @api_comunicator("get")
-    def get_env(self, host, project, token, dc):
-        """
-            Method to get all Environment from a DeploymentConfig.
-
-        :param host:        Openshift hostname.
-        :param project:     Project name on Openshift.
-        :param token:       User token to communicate with OAPI/API.
-        :param dc:          Name of the DeploymentConfig inside the project.
-        :return:            Return a JSON with all information about.
-        """
-
-        host += '/oapi/v1/namespaces/{0}/deploymentconfigs/{1}'.format(project, dc)
-        return self, host, token, None
-
-    @api_comunicator("get")
     def get_configmap(self, host, project, token):
         """
             Method to get all configmaps (include replaces) from a project.
@@ -365,19 +388,6 @@ class Openshift:
         :return:            Return a JSON with all information about.
         """
         host += '/api/v1/namespaces/{0}/configmaps'.format(project)
-        return self, host, token, None
-
-    @api_comunicator("get")
-    def get_routes(self, host, project, token):
-        """
-            Method to get all routes from a project.
-
-        :param host:        Openshift hostname.
-        :param project:     Project name on Openshift.
-        :param token:       User token to communicate with OAPI/API.
-        :return:            Return a JSON with all information about.
-        """
-        host += '/oapi/v1/namespaces/{0}/routes'.format(project)
         return self, host, token, None
 
     @api_comunicator("get")
@@ -501,11 +511,11 @@ class Openshift:
         return self, host, token, json_file
 
     @api_comunicator("post")
-    def set_deploymentconfig_autoscaler(self, host, project, token, dc, json_file):
+    def set_deploymentconfig_autoscaler(self, host, project, token, json_file):
         """
             Not tested
         """
-        host += '/apis/autoscaling/v1/namespaces/{0}/horizontalpodautoscalers/{1}'.format(project, dc)
+        host += '/apis/autoscaling/v1/namespaces/{0}/horizontalpodautoscalers'.format(project)
         return self, host, token, json_file
 
     # ============================================================================== #
@@ -514,11 +524,11 @@ class Openshift:
     # ============================================================================== #
     #
     @api_comunicator("put")
-    def set_deploymentconfig_autoscaler(self, host, project, token, dc, json_file):
+    def create_deploymentconfig_autoscaler(self, host, project, token, dc, json_file):
         """
             Not tested
         """
-        host += '/apis/autoscaling/v1/namespaces/{0}/horizontalpodautoscalers/{1}'.format(project, dc)
+        host += '/apis/autoscaling/v1/namespaces/{0}/horizontalpodautoscalers'.format(project, dc)
         return self, host, token, json_file
 
     @api_comunicator("put")
@@ -571,3 +581,4 @@ class Openshift:
         """
         host += '/oapi/v1/namespaces/{0}/deploymentconfigs/{1}/scale'.format(project, dc)
         return self, host, token, json_file
+
