@@ -203,10 +203,11 @@ class OpenshiftTools:
             })
         return json_data
 
-    def insert_autoscale(self, scale_minimum, scale_maximum, cpu_usage, json_data):
+    def insert_autoscale(self, app, scale_minimum, scale_maximum, cpu_usage, json_data):
         """
             Method to insert/edit a scale from a specified DeploymentConfig
 
+        :param dc:                  Name of the deploymentconfig (Used only to create new autoscale)
         :param scale_minimum:       Minimum scale required for this deploymentconfig (default 1)
         :param scale_maximum:       Maximum scale required for this deploymentconfig (defalt 1)
         :param cpu_usage:           CPU usage requested to scale a deploymentconfig (default 80%)
@@ -225,7 +226,9 @@ class OpenshiftTools:
             cpu_usage = 80
 
         # ================================================== #
-        if json_data['kind'] == 'HorizontalPodAutoscaler':
+        if json_data is not None and json_data['kind'] == 'HorizontalPodAutoscaler':
+            # In those case (autoscale already exists), there's no need to use the
+            # 'app' parameter.
             ####
             if json_data['spec'].get('minReplicas'):
                 json_data['spec']['minReplicas'] = int(scale_minimum)
@@ -242,5 +245,28 @@ class OpenshiftTools:
             else:
                 json_data['spec'].setdefault('targetCPUUtilizationPercentage', int(cpu_usage))
             ####
-        return json_data
+            return json_data
+        else:
+            if app is None:
+                print("==> Error: No deploymentconfig name informed to create autoscale")
+                exit(1)
+
+            json_data = {
+                "kind": "HorizontalPodAutoscaler",
+                "apiVersion": "autoscaling/v1",
+                "metadata": {
+                    "name": "{0}".format(app),
+                    "labels": {"app_name": "{0}".format(app)}
+                },
+                "spec": {
+                    "scaleTargetRef": {
+                        "kind": "DeploymentConfig",
+                        "name": "{0}".format(app),
+                        "apiVersion": "extensions/v1beta1"
+                },
+                "minReplicas": int(scale_minimum),
+                "maxReplicas": int(scale_maximum),
+                "targetCPUUtilizationPercentage": int(cpu_usage)
+                }}
+            return json_data
 
