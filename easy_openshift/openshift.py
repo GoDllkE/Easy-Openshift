@@ -260,6 +260,20 @@ class Openshift:
         host += '/oapi/v1/namespaces/{0}/routes'.format(project)
         return self, host, token, None
 
+    @api_comunicator("get")
+    def get_project_quotas(self, host, project, token):
+        """
+            Method to get all quotas configured in a project.
+
+        :param host:        Openshift hostname.
+        :param project:     Project name on Openshift.
+        :param token:       User token to communicate with OAPI/API.
+        :return:            Return a JSON with all information about.
+        """
+
+        host += '/api/v1/namespaces/{0}/resourcequotas'.format(project)
+        return self, host, token, None
+
     # ============================================================================== #
     # Functions to get specific ones
     #
@@ -319,6 +333,20 @@ class Openshift:
         host += '/apis/autoscaling/v1/namespaces/{0}/horizontalpodautoscalers/{1}'.format(project, dc)
         return self, host, token, None
 
+    @api_comunicator("get")
+    def get_project_quota(self, host, project, token, name):
+        """
+            Method to get all quotas configured in a project.
+
+        :param host:        Openshift hostname.
+        :param project:     Project name on Openshift.
+        :param token:       User token to communicate with OAPI/API.
+        :return:            Return a JSON with all information about.
+        """
+
+        host += '/api/v1/namespaces/{0}/resourcequotas/{1}'.format(project, name)
+        return self, host, token, None
+
     # ============================================================================== #
     # Functions to list/get specific or many datas
     #
@@ -349,20 +377,6 @@ class Openshift:
     # ============================================================================== #
     # Functions to get specific data
     #
-    @api_comunicator("get")
-    def get_quota(self, host, project, token):
-        """
-            Method to get all quotas configured in a project.
-
-        :param host:        Openshift hostname.
-        :param project:     Project name on Openshift.
-        :param token:       User token to communicate with OAPI/API.
-        :return:            Return a JSON with all information about.
-        """
-
-        host += '/api/v1/namespaces/{0}/resourcequotas'.format(project)
-        return self, host, token, None
-
     @api_comunicator("get")
     def get_rolebindings(self, host, project, token):
         """
@@ -581,4 +595,5 @@ class Openshift:
         """
         host += '/oapi/v1/namespaces/{0}/deploymentconfigs/{1}/scale'.format(project, dc)
         return self, host, token, json_file
+
 
