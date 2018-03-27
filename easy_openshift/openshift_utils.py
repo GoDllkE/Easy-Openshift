@@ -33,14 +33,20 @@ class OpenshiftTools:
 
                 # Check nevironment to remove and add to a special list
                 if '-' in env[0]:
-                    lista_remover.append(env[0])
+                    lista_remover.append(env[0].replace('-', ''))
                     continue
                 else:
-                    lista_variaveis.append(
-                        {
-                            'name': '{0}'.format(env[0]),
-                            'value': '{0}'.format(env[1])
-                        })
+                    if env[1] is not None:
+                        lista_variaveis.append(
+                            {
+                                'name': '{0}'.format(env[0]),
+                                'value': '{0}'.format(env[1])
+                            })
+                    else:
+                        lista_variaveis.append(
+                            {
+                                'name': '{0}'.format(env[0])
+                            })
                 # Fim do IF
             # List to control and ensures no duplications in our DC
             list_not_add = []
@@ -77,9 +83,9 @@ class OpenshiftTools:
                 pass
 
             # Remove envs listed before
-            if len(lista_remover) > 0:
+            if lista_remover is not None:
                 for containers in json_data['spec']['template']['spec']['containers']:
-                    containers['env'] = [dick for dick in containers['env'] if dick['name'] not in lista_remover]
+                    containers['env'] = [dic for dic in containers['env'] if dic['name'] not in lista_remover]
             # End of IF
 
             # Return data formated and ready for OAPI/API
