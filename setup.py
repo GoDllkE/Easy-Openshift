@@ -5,7 +5,7 @@ from setuptools import setup
 
 setup(
     name='easy-openshift',
-    version='0.5.7.2.1',
+    version='0.5.7.2.2',
     packages=["easy_openshift"],
     url='https://github.com/GoDllkE/python-api-openshift',
     download_url=('https://github.com/GoDllkE/Easy-Openshift/archive/master.zip'),
