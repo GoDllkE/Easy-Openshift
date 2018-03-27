@@ -233,20 +233,17 @@ class OpenshiftTools:
             if json_data['spec'].get('minReplicas'):
                 json_data['spec']['minReplicas'] = scale_minimum
             else:
-                json_data['spec']['minReplicas'] = scale_minimum
-                #json_data['spec'].setdefault('minReplicas', scale_minimum)
+                json_data['spec'].setdefault('minReplicas', scale_minimum)
             ####
             if json_data['spec'].get('maxReplicas'):
                 json_data['spec']['maxReplicas'] = scale_maximum
             else:
-                json_data['spec']['maxReplicas'] = scale_maximum
-                #json_data['spec'].setdefault('maxReplicas', scale_maximum)
+                json_data['spec'].setdefault('maxReplicas', scale_maximum)
             ####
             if json_data['spec'].get('targetCPUUtilizationPercentage'):
                 json_data['spec']['targetCPUUtilizationPercentage'] = cpu_usage
             else:
-                json_data['spec']['targetCPUUtilizationPercentage'] = cpu_usage
-                #json_data['spec'].setdefault('targetCPUUtilizationPercentage', cpu_usage)
+                json_data['spec'].setdefault('targetCPUUtilizationPercentage', cpu_usage)
             ####
             return json_data
         else:
