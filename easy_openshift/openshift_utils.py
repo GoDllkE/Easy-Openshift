@@ -79,9 +79,7 @@ class OpenshiftTools:
             # Remove envs listed before
             if len(lista_remover) > 0:
                 for containers in json_data['spec']['template']['spec']['containers']:
-                    # Use list comprehension to delete it.
-                    # Performatic way
-                    containers['env'] = [dick for dick in containers['env'] if dick not in lista_remover]
+                    containers['env'] = [dick for dick in containers['env'] if dick['name'] not in lista_remover]
             # End of IF
 
             # Return data formated and ready for OAPI/API
