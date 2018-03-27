@@ -231,19 +231,22 @@ class OpenshiftTools:
             # 'app' parameter.
             ####
             if json_data['spec'].get('minReplicas'):
-                json_data['spec']['minReplicas'] = int(scale_minimum)
+                json_data['spec']['minReplicas'] = scale_minimum
             else:
-                json_data['spec'].setdefault('minReplicas', int(scale_minimum))
+                json_data['spec']['minReplicas'] = scale_minimum
+                #json_data['spec'].setdefault('minReplicas', scale_minimum)
             ####
             if json_data['spec'].get('maxReplicas'):
-                json_data['spec']['maxReplicas'] = int(scale_maximum)
+                json_data['spec']['maxReplicas'] = scale_maximum
             else:
-                json_data['spec'].setdefault('maxReplicas', int(scale_maximum))
+                json_data['spec']['maxReplicas'] = scale_maximum
+                #json_data['spec'].setdefault('maxReplicas', scale_maximum)
             ####
             if json_data['spec'].get('targetCPUUtilizationPercentage'):
-                json_data['spec']['targetCPUUtilizationPercentage'] = int(cpu_usage)
+                json_data['spec']['targetCPUUtilizationPercentage'] = cpu_usage
             else:
-                json_data['spec'].setdefault('targetCPUUtilizationPercentage', int(cpu_usage))
+                json_data['spec']['targetCPUUtilizationPercentage'] = cpu_usage
+                #json_data['spec'].setdefault('targetCPUUtilizationPercentage', cpu_usage)
             ####
             return json_data
         else:
@@ -264,9 +267,9 @@ class OpenshiftTools:
                         "name": "{0}".format(app),
                         "apiVersion": "extensions/v1beta1"
                 },
-                "minReplicas": int(scale_minimum),
-                "maxReplicas": int(scale_maximum),
-                "targetCPUUtilizationPercentage": int(cpu_usage)
+                "minReplicas": "{0}".format(scale_minimum),
+                "maxReplicas": "{0}".format(scale_maximum),
+                "targetCPUUtilizationPercentage": "{0}".format(cpu_usage)
                 }}
             return json_data
 
