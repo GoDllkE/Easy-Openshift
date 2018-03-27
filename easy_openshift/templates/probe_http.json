@@ -1,0 +1,5 @@
+"httpGet": {
+    "path": "<path>",
+    "port": "<port>",
+    "scheme": "HTTP"
+}
