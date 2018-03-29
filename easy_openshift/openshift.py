@@ -70,38 +70,67 @@ class Openshift:
                     token = func(*args)[2]
                     json_config = func(*args)[3]
 
-                    if type_action in ["get", "put", "patch", "post", "delete"]:
+                    if type_action in [
+                            "get", "put", "patch", "post", "delete"
+                    ]:
                         if type_action == "get":
-                            header = {'Accept': 'application/json', 'Authorization': 'Bearer {0}'.format(token)}
-                            response = requests.get(host, verify=False, headers=header)
+                            header = {
+                                'Accept': 'application/json',
+                                'Authorization': 'Bearer {0}'.format(token)
+                            }
+                            response = requests.get(
+                                host, verify=False, headers=header)
                             return json.loads(response.content)
 
                         elif type_action == "patch":
-                            header = {'Accept': 'application/json', 'Content-Type': 'application/merge-patch+json',
-                                      'Authorization': 'Bearer {0}'.format(token)}
-                            response = requests.patch(host, verify=False, headers=header, json=json_config)
+                            header = {
+                                'Accept': 'application/json',
+                                'Content-Type': 'application/merge-patch+json',
+                                'Authorization': 'Bearer {0}'.format(token)
+                            }
+                            response = requests.patch(
+                                host,
+                                verify=False,
+                                headers=header,
+                                json=json_config)
                             return json.loads(response.content)
 
                         elif type_action == "put":
-                            header = {'Accept': 'application/json', 'Content-Type': 'application/json',
-                                      'Authorization': 'Bearer {0}'.format(token)}
-                            response = requests.put(host, verify=False, headers=header, json=json_config)
+                            header = {
+                                'Accept': 'application/json',
+                                'Content-Type': 'application/json',
+                                'Authorization': 'Bearer {0}'.format(token)
+                            }
+                            response = requests.put(
+                                host,
+                                verify=False,
+                                headers=header,
+                                json=json_config)
                             return json.loads(response.content)
 
                         elif type_action == "post":
-                            header = {'Accept': 'application/json', 'Content-Type': 'application/json',
-                                      'Authorization': 'Bearer {0}'.format(token)}
-                            response = requests.post(host, verify=False, headers=header, json=json_config)
+                            header = {
+                                'Accept': 'application/json',
+                                'Content-Type': 'application/json',
+                                'Authorization': 'Bearer {0}'.format(token)
+                            }
+                            response = requests.post(
+                                host,
+                                verify=False,
+                                headers=header,
+                                json=json_config)
                             return json.loads(response.content)
 
                         elif type_action == "delete":
                             pass
 
                     else:
-                        print("==> Invalid type of action! ({0})".format(type_action))
+                        print("==> Invalid type of action! ({0})".format(
+                            type_action))
                         exit(1)
 
-                except (ConnectionError, TimeoutError, ValueError, SystemError) as corno:
+                except (ConnectionError, TimeoutError, ValueError,
+                        SystemError) as corno:
                     print("==> Erro: {0}".format(corno))
                     exit(1)
 
@@ -124,7 +153,11 @@ class Openshift:
 
             host += '/oauth/authorize?response_type=token&client_id=openshift-challenging-client'
 
-            header = {'content-type': 'application/json', 'Authorization': auth, 'X-Csrf-Token': '1'}
+            header = {
+                'content-type': 'application/json',
+                'Authorization': auth,
+                'X-Csrf-Token': '1'
+            }
 
             # Get token
             response = requests.get(host, verify=False, headers=header)
@@ -344,7 +377,8 @@ class Openshift:
         :return:            Return a JSON with all information about.
         """
 
-        host += '/api/v1/namespaces/{0}/resourcequotas/{1}'.format(project, name)
+        host += '/api/v1/namespaces/{0}/resourcequotas/{1}'.format(
+            project, name)
         return self, host, token, None
 
     # ============================================================================== #
@@ -442,7 +476,8 @@ class Openshift:
         :param name:        Specific name of the egress-network-policies
         :return:            Return a JSON with all information about.
         """
-        host += '/oapi/v1/namespaces/{0}/egressnetworkpolicies/{1}'.format(project, name)
+        host += '/oapi/v1/namespaces/{0}/egressnetworkpolicies/{1}'.format(
+            project, name)
         return self, host, token, None
 
     # ============================================================================== #
@@ -496,7 +531,7 @@ class Openshift:
         return self, host, token, json_file
 
     @api_comunicator("patch")
-    def update_deploymentconfig_autoscaler(self, host, project, token, dc, json_file):
+    def update_deploymentconfig_autoscale(self, host, project, token, dc, json_file):
         """
             Function to return HPA data from a deploymentconfig
 
@@ -509,7 +544,6 @@ class Openshift:
         """
         host += '/apis/autoscaling/v1/namespaces/{0}/horizontalpodautoscalers/{1}'.format(project, dc)
         return self, host, token, json_file
-
 
     # ============================================================================== #
     #   Functions to send data from openshift API                                    #
@@ -525,7 +559,7 @@ class Openshift:
         return self, host, token, json_file
 
     @api_comunicator("post")
-    def set_deploymentconfig_autoscaler(self, host, project, token, json_file):
+    def set_deploymentconfig_autoscale(self, host, project, token, json_file):
         """
             Not tested
         """
@@ -548,13 +582,44 @@ class Openshift:
         host += '/oapi/v1/namespaces/{0}/routes'.format(project)
         return self, host, token, json_file
 
+    @api_comunicator("post")
+    def get_deploymentconfig_oldversion(self, host, project, token, dc,json_file):
+        """
+            Method to get an old deploymentconfig in openshift
+            history controller.
+
+        :param host:        Openshift hostname.
+        :param project:     Project name on Openshift.
+        :param token:       User token to communicate with OAPI/API.
+        :param dc:          Name of the deploymentconfig to retrieve.
+        :param json_file:   Variable with all json formatted and ready to push to API/OAPI.
+        :return:            Return a JSON with all information about.
+        """
+        host += '/oapi/v1/namespaces/{0}/deploymentconfigs/{1}/rollback'.format(project, dc)
+        return self, host, token, json_file
+
+    @api_comunicator("post")
+    def trigger_deploy(self, host, project, token, dc, json_file):
+        """
+            Method to trigger a deploymentconfig.
+
+        :param host:        Openshift hostname.
+        :param project:     Project name on Openshift.
+        :param token:       User token to communicate with OAPI/API.
+        :param dc:          Name of the deploymentconfig to retrieve.
+        :param json_file:   Variable with all json formatted and ready to push to API/OAPI.
+        :return:            Return a JSON with the result obtained.
+        """
+        host += '/oapi/v1/namespaces/{0}/deploymentconfigs/{1}/instantiate'.format(project, dc)
+        return self, host, token, json_file
+
     # ============================================================================== #
     #   Functions to send data from openshift API                                    #
     #   session to create all PUT functions of this class                            #
     # ============================================================================== #
     #
     @api_comunicator("put")
-    def create_deploymentconfig_autoscaler(self, host, project, token, dc, json_file):
+    def create_deploymentconfig_autoscale(self, host, project, token, dc,json_file):
         """
             Not tested
         """
@@ -562,7 +627,7 @@ class Openshift:
         return self, host, token, json_file
 
     @api_comunicator("put")
-    def create_deploymentconfig_scale(self, host, project, token, dc, json_file):
+    def create_deploymentconfig_scale(self, host, project, token, dc,json_file):
         """
             Method to create or update a scale from a deploymentconfig.
 
@@ -573,16 +638,32 @@ class Openshift:
         :param json_file:   Variable with all json formatted and ready to push to API/OAPI.
         :return:            Return a JSON with all information about.
         """
-        host += '/oapi/v1/namespaces/{0}/deploymentconfigs/{1}/scale'.format(project, dc)
+        host += '/oapi/v1/namespaces/{0}/deploymentconfigs/{1}/scale'.format(
+            project, dc)
+        return self, host, token, json_file
+
+    @api_comunicator("put")
+    def trigger_deploy_rollback(self, host, project, token, dc, json_file):
+        """
+            Method to trigger a deploymentconfig rollback
+
+        :param host:        Openshift hostname.
+        :param project:     Project name on Openshift.
+        :param token:       User token to communicate with OAPI/API.
+        :param dc:          Name of the deploymentconfig in openshift project.
+        :param json_file:   Variable with all json formatted and ready to push to API/OAPI.
+        :return:            Return a JSON with the result obtained.
+        """
+        host += '/oapi/v1/namespaces/{0}/deploymentconfigs/{1}'.format(project, dc)
         return self, host, token, json_file
 
     # ============================================================================== #
     #   Functions to send data from openshift API                                    #
-    #   session to create all DELETE functions of this class                            #
+    #   session to create all DELETE functions of this class                         #
     # ============================================================================== #
     #
     @api_comunicator("delete")
-    def __delete_deploymentconfig_scale(self, host, project, token, dc, json_file):
+    def __delete_deploymentconfig_scale(self, host, project, token, dc,json_file):
         """
             NOT TESTED.
 
@@ -595,5 +676,3 @@ class Openshift:
         """
         host += '/oapi/v1/namespaces/{0}/deploymentconfigs/{1}/scale'.format(project, dc)
         return self, host, token, json_file
-
-
