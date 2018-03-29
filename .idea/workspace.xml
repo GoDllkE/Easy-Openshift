@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="08a873f3-5fd0-4410-921f-a9e84d5268b0" name="Default" comment="">
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/dictionaries/godlike.xml" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-    </list>
+    <list default="true" id="08a873f3-5fd0-4410-921f-a9e84d5268b0" name="Default" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -186,7 +183,14 @@
       <option name="project" value="LOCAL" />
       <updated>1522350832243</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="Updated project files">
+      <created>1522350843612</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1522350843612</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -225,7 +229,8 @@
     <MESSAGE value="Added functions to trigger deploy and to get/set deploy of rollbacks" />
     <MESSAGE value="Added functions to return the basic structure to trigger deploy and/or rollbacks." />
     <MESSAGE value="Updated module version and corrected name of author." />
-    <option name="LAST_COMMIT_MESSAGE" value="Updated module version and corrected name of author." />
+    <MESSAGE value="Updated project files" />
+    <option name="LAST_COMMIT_MESSAGE" value="Updated project files" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
