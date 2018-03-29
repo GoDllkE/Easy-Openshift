@@ -290,3 +290,67 @@ class OpenshiftTools:
                 }}
             return json_data
 
+    def deploy_rollback(self, dc, version):
+        """
+            Method to return default structure to trigger a deploy rollback.
+
+        :param dc:              Name of the deploymentconfig to rollback.
+        :param version:         Version of the deploymentconfig to rollback.
+        :return:                Return default structure to trigger deploy rollback.
+        """
+        # Controler
+        validator = 0
+
+        #
+        if dc is None or len(dc) < 3:
+            print("Erro: nome do deploymentconfig e invalido.")
+            validator += 1
+
+        #
+        if version is None or version < 1:
+            print("Erro: nome do deploymentconfig e invalido.")
+            validator += 1
+
+        #
+        if validator is not 0:
+            return False
+        else:
+            #
+            data = {
+                "kind": "DeploymentConfigRollback",
+                "apiVersion": "v1",
+                "name": "{0}".format(dc),
+                "spec": {
+                    "from": {},
+                    "revision": "{0}".format(version),
+                    "includeTriggers": False,
+                    "includeTemplate": True,
+                    "includeReplicationMeta": False,
+                    "includeStrategy": False
+                }
+            }
+            return data
+        # End of IF
+    # End of function
+
+    def deploy_latest(self, dc):
+        """
+            Method to return default structure to trigger a new deploy.
+
+        :param dc:          Name of the deploymentconfig.
+        :return:            Return default structure to deploy.
+        """
+        #
+        if dc is None or len(dc) < 3:
+            print("Erro: nome do deploymentconfig e invalido.")
+            return 1
+        #
+        data = {
+            "kind": "DeploymentRequest",
+            "apiVersion":"v1",
+            "name":"{0}".format(dc),
+            "latest": True,
+            "force": True
+        }
+        return data
+    # End of function
