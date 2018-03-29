@@ -70,17 +70,14 @@ class Openshift:
                     token = func(*args)[2]
                     json_config = func(*args)[3]
 
-                    if type_action in [
-                            "get", "put", "patch", "post", "delete"
-                    ]:
+                    if type_action in ["get", "put", "patch", "post", "delete"]:
                         if type_action == "get":
                             header = {
                                 'Accept': 'application/json',
                                 'Authorization': 'Bearer {0}'.format(token)
                             }
-                            response = requests.get(
-                                host, verify=False, headers=header)
-                            return json.loads(response.content)
+                            response = requests.get(host, verify=False, headers=header)
+                            return json.loads(response.content.decode('utf-8'))
 
                         elif type_action == "patch":
                             header = {
@@ -88,12 +85,8 @@ class Openshift:
                                 'Content-Type': 'application/merge-patch+json',
                                 'Authorization': 'Bearer {0}'.format(token)
                             }
-                            response = requests.patch(
-                                host,
-                                verify=False,
-                                headers=header,
-                                json=json_config)
-                            return json.loads(response.content)
+                            response = requests.patch(host, verify=False, headers=header, json=json_config)
+                            return json.loads(response.content.decode('utf-8'))
 
                         elif type_action == "put":
                             header = {
@@ -101,12 +94,8 @@ class Openshift:
                                 'Content-Type': 'application/json',
                                 'Authorization': 'Bearer {0}'.format(token)
                             }
-                            response = requests.put(
-                                host,
-                                verify=False,
-                                headers=header,
-                                json=json_config)
-                            return json.loads(response.content)
+                            response = requests.put(host, verify=False, headers=header, json=json_config)
+                            return json.loads(response.content.decode('utf-8'))
 
                         elif type_action == "post":
                             header = {
@@ -114,28 +103,21 @@ class Openshift:
                                 'Content-Type': 'application/json',
                                 'Authorization': 'Bearer {0}'.format(token)
                             }
-                            response = requests.post(
-                                host,
-                                verify=False,
-                                headers=header,
-                                json=json_config)
-                            return json.loads(response.content)
+                            response = requests.post(host, verify=False, headers=header, json=json_config)
+                            return json.loads(response.content.decode('utf-8'))
 
                         elif type_action == "delete":
                             pass
 
                     else:
-                        print("==> Invalid type of action! ({0})".format(
-                            type_action))
+                        print("==> Invalid type of action! ({0})".format(type_action))
                         exit(1)
 
-                except (ConnectionError, TimeoutError, ValueError,
-                        SystemError) as corno:
+                except (ConnectionError, TimeoutError, ValueError, SystemError) as corno:
                     print("==> Erro: {0}".format(corno))
                     exit(1)
 
             return func_wrapper
-
         return action_decotator
 
     def get_login_token(self, host, userdata):
