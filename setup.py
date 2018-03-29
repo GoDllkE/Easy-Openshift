@@ -5,7 +5,7 @@ from setuptools import setup
 
 setup(
     name='easy-openshift',
-    version='0.5.7.2.2',
+    version='0.5.7.3',
     packages=["easy_openshift"],
     url='https://github.com/GoDllkE/python-api-openshift',
     download_url=('https://github.com/GoDllkE/Easy-Openshift/archive/master.zip'),
@@ -111,7 +111,7 @@ Citing
 ======
 Please cite the following paper if you use easy-openshift in a published work:
 
-Gustavo Toledo, Tiago Abluquerque. "Easy-Openshift: Improving openshift auto-management through Python 3", 2018
+Gustavo Toledo, Tiago Albuquerque. "Easy-Openshift: Improving openshift auto-management through Python 3", 2018
 
 .. _PYPI: https://pypi.python.org/pypi/Easy-Openshift
 .. _Github: https://github.com/GoDllkE/python-api-openshift
