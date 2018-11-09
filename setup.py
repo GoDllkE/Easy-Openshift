@@ -5,20 +5,17 @@ from setuptools import setup
 
 setup(
     name='easy-openshift',
-    version='0.5.7.4',
+    version='0.5.7',
     packages=["easy_openshift"],
     url='https://github.com/GoDllkE/python-api-openshift',
-    download_url=('https://github.com/GoDllkE/Easy-Openshift/archive/master.zip'),
+    download_url=(
+        'https://github.com/GoDllkE/Easy-Openshift/archive/master.zip'),
     description='A python module to interact with openshift API.',
     author='Gustavo Toledo de Oliveira, Tiago Albuquerque',
     author_email='gustavot53@gmail.com, Tiago.gba@hotmail.com',
     keywords=[
-        'openshift',
-        'origin',
-        'easy-openshift',
-        'openshift api',
-        'python openshift',
-        'oc.py'
+        'openshift', 'origin', 'easy-openshift', 'openshift api',
+        'python openshift', 'oc.py'
     ],
     install_requires=[
         'jsonschema>=2.6.0',
@@ -27,7 +24,7 @@ setup(
     ],
     classifiers=[
         # Development status
-        'Development Status :: 3 - Alpha',
+        'Development Status :: 3 - Beta',
 
         # Intention
         'Intended Audience :: Developers',
@@ -42,15 +39,16 @@ setup(
         'Natural Language :: Portuguese (Brazilian)',
 
         # Supported versions
-        'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.4',
         'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
+        'Programming Language :: Python :: 3.7',
         'Programming Language :: Python :: 3 :: Only'
     ],
     project_urls={
         'Source': 'https://github.com/GoDllkE/python-api-openshift',
-        'Documentation': 'https://github.com/GoDllkE/python-api-openshift/docs',
+        'Documentation':
+        'https://github.com/GoDllkE/python-api-openshift/docs',
         'Tracker': 'https://github.com/GoDllkE/python-api-openshift/issues'
     },
     long_description="""
@@ -115,5 +113,4 @@ Gustavo Toledo, Tiago Albuquerque. "Easy-Openshift: Improving openshift auto-man
 
 .. _PYPI: https://pypi.python.org/pypi/Easy-Openshift
 .. _Github: https://github.com/GoDllkE/python-api-openshift
-    """
-)
+    """)
